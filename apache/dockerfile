@@ -1,8 +1,6 @@
 FROM ubuntu
 LABEL name="akash"
 RUN apt update ; apt install apache2 -y
-RUN wget https://example.com/path/to/glibc-2.32.deb
-RUN dpkg -i glibc-2.32.deb
 
 ENV hello=world
 RUN touch hello
