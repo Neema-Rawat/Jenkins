@@ -1,0 +1,37 @@
+pipeline {
+    agent any
+    stages {
+        stage('job1') {
+            steps {
+                sh 'rm -rf Jenkins' // Delete the existing directory
+                sh 'git clone https://github.com/Neema-Rawat/Jenkins.git'
+                sh 'pwd'
+            }
+        }
+        stage('job2') {
+            steps {
+                // Navigate to the cloned repository directory
+                dir('Jenkins') {
+                    // Build the Docker image
+                    sh 'pwd'
+                    sh 'ls'
+                    sh 'docker build -t neemarawat/test:v2 /var/jenkins_home/workspace/myjobs-pipeline/Jenkins/apache/.'
+                }
+            }
+        }
+        stage('job3') {
+            steps {
+                // Run the docker image
+                sh 'docker rm -f ak'
+                sh 'docker run -itd --name ak -p 1133:80 neemarawat/test:v2'
+                
+            }
+        }
+        stage('job4') {
+            steps {
+                //Push the docker image to dockerhub
+                sh 'docker push neemarawat/test:v2'
+            }
+        }
+    }
+}
